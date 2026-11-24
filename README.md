@@ -12,11 +12,18 @@ the chat, and exits.
    *Root Directory* set to `vercel-edition`, or copy this folder into its own
    repo and import that. Framework preset: **Other**. (Deploying from your own
    Vercel account, like you did for the Duck wrapper.)
-2. **Make the session string** (on your computer, in the main Arena wrapper
-   project — the `mediTracknew` repo): `npm run login` once, then
-   `npm run session-for-vercel` → it writes `arena-session.txt`.
+2. **Choose how it logs in to Arena** — two ways, email/password is easier:
+   - **Auto-login (recommended):** just set `ARENA_EMAIL` + `ARENA_PASSWORD`
+     (step 3) — every request's browser logs itself in through Arena's own
+     dialog. Works for an existing account that has a password.
+   - **Session string:** on your computer, in the main Arena wrapper project
+     (the `mediTracknew` repo): `npm run login` once, then
+     `npm run session-for-vercel` → it writes `arena-session.txt`; set it as
+     `ARENA_SESSION_B64`. Needed only if the account has no password
+     (e.g. Google-only sign-in).
 3. **Set env vars** in the Vercel project (Settings → Environment Variables):
-   - `ARENA_SESSION_B64` — the whole contents of `arena-session.txt`
+   - `ARENA_EMAIL` + `ARENA_PASSWORD` — your Arena login (auto-login), **or**
+     `ARENA_SESSION_B64` — the whole contents of `arena-session.txt`
    - `ARENA_API_KEY` — your fixed key, e.g. `arena-anything-you-like`
    - `ARENA_PROXY` — **strongly recommended:** a residential proxy
      (`http://user:pass@host:port`, e.g. your Webshare rotating endpoint).
@@ -43,8 +50,11 @@ the chat, and exits.
   `VIDEO_ON_VERCEL` with this explanation. Use the server edition for video.
 - **Hobby plan is tight:** 60 s per request — a cold browser start plus a slow
   model can exceed it. Pro (300 s) is much safer.
-- **The session can expire.** Arena rotates its login; if chats start failing
-  with `LOGIN_REQUIRED`, re-run step 2 and update `ARENA_SESSION_B64`.
+- **Logins expire.** With the session-string method, Arena rotates its
+  login; if chats start failing with `LOGIN_REQUIRED`, re-run step 2 and
+  update `ARENA_SESSION_B64`. Auto-login (email/password) re-logs-in on
+  every request, so it doesn't have this problem — but Arena can still
+  challenge a fresh login with a captcha (the proxy helps).
 - **reCAPTCHA may still refuse** the serverless browser sometimes (headless
   scores low). The residential proxy is the main countermeasure. If Arena
   keeps refusing, the server edition on a VPS/home PC remains the reliable

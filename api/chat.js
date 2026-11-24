@@ -15,6 +15,7 @@ const BAD_IMAGE_RE = /^data:image\/[a-zA-Z0-9.+-]+;base64,[A-Za-z0-9+/=\s]+$/;
 function httpForCode(code) {
     if (['UNKNOWN_MODEL', 'IMAGE_NOT_SUPPORTED', 'VIDEO_ON_VERCEL', 'BAD_IMAGE'].includes(code)) return 400;
     if (['NO_SESSION', 'LOGIN_REQUIRED'].includes(code)) return 503;
+    if (code === 'AUTO_LOGIN_FAILED') return 502;
     return 502;
 }
 

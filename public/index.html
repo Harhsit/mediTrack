@@ -96,7 +96,7 @@
     <button id="send">Send</button>
     <div class="reply" id="reply"></div>
     <div class="meta" id="meta"></div>
-    <p class="hint">If chats fail with LOGIN_REQUIRED, the Arena session has expired: re-run <b>npm run session-for-vercel</b> in the main project and update the ARENA_SESSION_B64 env var, then redeploy.</p>
+    <p class="hint">If chats fail with LOGIN_REQUIRED: with ARENA_EMAIL + ARENA_PASSWORD set, the server logs itself in — check those env vars are right. With ARENA_SESSION_B64 instead, the session has expired: re-run <b>npm run session-for-vercel</b> in the main project, update the env var, then redeploy.</p>
   </div>
 </div>
 <script>
